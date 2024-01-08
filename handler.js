@@ -1,6 +1,6 @@
 // This script handles page changes and save/load
 
-doc = "main.html"
+doc = "index.html"
 
 var elementIDs = [
 "track","date",
