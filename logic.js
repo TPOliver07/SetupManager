@@ -1,6 +1,6 @@
 // This script runs the logic.
 
-doc = "main.html"
+doc = "index.html"
 
 var scaleFillRuns = 0;
 var errorFlag = false;
