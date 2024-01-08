@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Setup App</title>
+	<!-- References happen here -->
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<script type = "text/javascript" src = "logic.js"></script>
+	<script type = "text/javascript" src = "handler.js"></script>
+</head>
+<body>
+<h1>Racing Setup Manager</h1>
+<!-- Need to put new file and load file buttons.-->
+<div class="workArea" id="setupSheet">
+	<div class="center">
+		<h2>Setup Information</h2>
+		<label for="track">Track: </label>
+		<input class="otherInput" type="text" id="track">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<label for="date">Date: </label>
+		<input class="otherInput" type="text" id="date">
+	</div>
+	<div class="center">
+		<h2>Weights</h2>
+		<table class="mainTable" id="cross">
+			<tr>
+				<td rowspan="2">LF Weight</td>
+				<td class="tdInput" id="LFParent"><input type="text" id="LFWeight" onchange="scaleFill()"> lbs</td>
+				<td rowspan="2" style="width: 175px">Cross Weight</td>
+				<td id="CrossWeight" class="tdStatic" style="width: 225px"> lbs</td>
+				<td rowspan="2">RF Weight</td>
+				<td class="tdInput" id="RFParent"><input type="text" id="RFWeight" onchange="scaleFill()"> lbs</td>
+			</tr>
+			<tr>
+				<td id="LFPct" class="tdInput"> %</td>
+				<td id="CrossPct" class="tdStatic"> %</td>
+				<td id="RFPct" class="tdInput"> %</td>
+			</tr>
+			<tr>
+				<td colspan="2" height="125 pixels"><button type="button" onclick="scaleFill()">Calculate</button></td>
+				<td rowspan="4" colspan="2" style="width: 450px" height="400 pixels"><img src="cross.png" width="400" height="400"></img></td>
+				<td colspan="2" height="125 pixels"></td>
+			</tr>
+			<tr>
+				<td rowspan="2">Left Side</td>
+				<td id="LeftWeight" class="tdStatic"> lbs</td>
+				<td rowspan="2">Right Side</td>
+				<td id="RightWeight" class="tdStatic"> lbs</td>
+			</tr>
+			<tr>
+				<td id="LeftPct" class="tdStatic"> %</td>
+				<td id="RightPct" class="tdStatic"> %</td>
+			</tr>
+			<tr>
+				<td colspan="2" height="125 pixels"></td>
+				<td colspan="2" height="125 pixels"></td>
+			</tr>
+			<tr>
+				<td rowspan="2">LR Weight</td>
+				<td class="tdInput" id="LRParent"><input type="text" id="LRWeight" onchange="scaleFill()"> lbs</td>
+				<td rowspan="2">Rear Weight</td>
+				<td id="RearWeight" class="tdStatic"> lbs</td>
+				<td rowspan="2">RR Weight</td>
+				<td class="tdInput" id="RRParent"><input type="text" id="RRWeight" onchange="scaleFill()"> lbs</td>
+			</tr>
+			<tr>
+				<td id="LRPct" class="tdStatic"> %</td>
+				<td id="RearPct" class="tdStatic"> %</td>
+				<td id="RRPct" class="tdStatic"> %</td>
+			</tr>
+			<tr>
+				<td>Driver Weight</td>
+				<td class="tdInput"><input type="text" id="DriverWeight"> lbs</td>
+				<td>Total Weight</td>
+				<td id="TotalWeight" class="tdStatic"> lbs</td>
+				<td>Ballast Weight</td>
+				<td class="tdInput"><input type="text" id="BallastWeight"> lbs</td>
+			</tr>
+		</table>
+		<h2>Chassis</h2>
+		<table class="mainTable" id="chassis">
+			<tr>
+				<td rowspan="2">Ride Height</td>
+				<td class="tdLabel">LF</td>
+				<td  class="tdInput"><input type="text" id="LFHeight" style="width:65px"> in</td>
+				<td class="tdLabel">RF</td>
+				<td  class="tdInput"><input type="text" id="RFHeight" style="width:65px"> in</td>
+				<td rowspan="2">Air Pressure</td>
+				<td class="tdLabel">LF</td>
+				<td  class="tdInput"><input type="text" id="LFPressure"> PSI</td>
+				<td class="tdLabel">RF</td>
+				<td  class="tdInput"><input type="text" id="RFPressure"> PSI</td>
+			</tr>
+			<tr>
+				<td class="tdLabel">LR</td>
+				<td  class="tdInput"><input type="text" id="LRHeight" style="width:65px"> in</td>
+				<td class="tdLabel">RR</td>
+				<td  class="tdInput"><input type="text" id="RRHeight" style="width:65px"> in</td>
+				<td class="tdLabel">LR</td>
+				<td  class="tdInput"><input type="text" id="LRPressure"> PSI</td>
+				<td class="tdLabel">RR</td>
+				<td  class="tdInput"><input type="text" id="RRPressure"> PSI</td>
+			</tr>
+			<tr>
+				<td>Camber</td>
+				<td class="tdLabel">LF</td>
+				<td  class="tdInput"><input type="text" id="LFCamber">&deg;</td>
+				<td class="tdLabel">RF</td>
+				<td  class="tdInput"><input type="text" id="RFCamber">&deg;</td>
+				<td rowspan="3">Stagger</td>
+				<td class="tdLabel">Front</td>
+				<td  class="tdInput"><input type="text" id="FStagger" style="width:65px"> in</td>
+				<td class="tdLabel">Rear</td>
+				<td  class="tdInput"><input type="text" id="RStagger" style="width:65px"> in</td>
+			</tr>
+			<tr>
+				<td>Caster</td>
+				<td class="tdLabel">LF</td>
+				<td  class="tdInput"><input type="text" id="LFCaster">&deg;</td>
+				<td class="tdLabel">RF</td>
+				<td  class="tdInput"><input type="text" id="RFCaster">&deg;</td>
+				<td class="tdLabel">LF</td>
+				<td  class="tdInput"><input type="text" id="LFTireCirc" style="width:65px"> in</td>
+				<td class="tdLabel">RF</td>
+				<td  class="tdInput"><input type="text" id="RFTireCirc" style="width:65px"> in</td>
+			</tr>
+			<tr>
+				<td rowspan="2">Springs</td>
+				<td class="tdLabel">LF</td>
+				<td  class="tdInput"><input type="text" id="LFSpring"> lbs/in</td>
+				<td class="tdLabel">RF</td>
+				<td  class="tdInput"><input type="text" id="RFSpring"> lbs/in</td>
+				<td class="tdLabel">LR</td>
+				<td  class="tdInput"><input type="text" id="LRTireCirc" style="width:65px"> in</td>
+				<td class="tdLabel">RR</td>
+				<td  class="tdInput"><input type="text" id="RRTireCirc" style="width:65px"> in</td>
+			</tr>
+			<tr>
+				<td class="tdLabel">LR</td>
+				<td  class="tdInput"><input type="text" id="LRSpring"> lbs/in</td>
+				<td class="tdLabel">RR</td>
+				<td  class="tdInput"><input type="text" id="RRSpring"> lbs/in</td>
+				<td>Tires</td>
+				<td class="tdLabel">Set</td>
+				<td  class="tdInput"><input style="width:95px" type="text" id="TireSet"></td>
+				<td class="tdLabel">Age</td>
+				<td  class="tdInput"><input style="width:95px" type="text" id="TireAge"></td>
+			</tr>
+			<tr>
+				<td colspan="3">Toe-In</td>
+				<td colspan="2"  class="tdInput"><input type="text" id="ToeIn"> in</td>
+				<td colspan="2">Brake Bias</td>
+				<td colspan="2"  class="tdLabel">Front/Rear</td>
+				<td  class="tdInput"><input type="text" id="FrontBias">%</td>
+			</tr>
+			<tr>
+				<td rowspan="2">Shocks (Valving)</td>
+				<td class="tdLabel">LF</td>
+				<td  class="tdInput"><input type="text" id="LFShock"></td>
+				<td class="tdLabel">RF</td>
+				<td  class="tdInput"><input type="text" id="RFShock"></td>
+				<td rowspan="2" colspan="2">Panhard Bar Angle</td>
+				<td rowspan="2" class="tdInput"><input type="text" id="PanhardAngle">&deg;</td>
+				<td rowspan="2" >Pinion Angle</td>
+				<td rowspan="2" class="tdInput"><input type="text" id="PinionAngle">&deg;</td>
+			</tr>
+			<tr>
+				<td class="tdLabel">LR</td>
+				<td class="tdInput"><input type="text" id="LRShock"></td>
+				<td class="tdLabel">RR</td>
+				<td class="tdInput"><input type="text" id="RRShock"></td>
+			</tr>
+		</table>
+		<h2>Notes</h2>
+		<table class="mainTable" id="notes">
+			<tr>
+				<td class="tdLabel" style="width: 50px">Comments</td>
+				<td class="tdInput" colspan="3" style="width: 450px"><textarea id="comments" rows="4" cols="70"></textarea></td>
+			</tr>
+			<tr>
+				<td class="tdLabel">Qualifying Time</td>
+				<td class="tdInput"><input type="text" id="QTime" style="width:100px"></td>
+				<td class="tdLabel">Started Race</td>
+				<td class="tdInput"><input type="text" id="RStart"></td>
+			<tr>
+			<tr>
+				<td class="tdLabel">Qualifying Position</td>
+				<td class="tdInput"><input type="text" id="QPos" style="width:100px"></td>
+				<td class="tdLabel">Finished Race</td>
+				<td class="tdInput"><input type="text" id="RFinish"></td>
+			<tr>
+			<tr>
+				<td class="tdLabel">Pole Time</td>
+				<td class="tdInput"><input type="text" id="QPole" style="width:100px"></td>
+				<td class="tdLabel">Car Count</td>
+				<td class="tdInput"><input type="text" id="CarCount"></td>
+			<tr>
+		</table>
+	</div>
+	<div id="fileManager">
+		<br>
+		<button type="button" onclick="save()">Save</button>
+		<button type="button" onclick="load()">Load</button>
+		<label for="loadPathInput">File: </label>
+		<input class="otherInput" type="file" id="loadPathInput" accept=".stp">
+	</div>
+	
+</div>

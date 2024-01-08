@@ -1,0 +1,130 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  table-layout: fixed;
+}
+	
+.mainTable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  table-layout: fixed;
+}
+
+td, th {
+  border: 2px solid #000000;
+  text-align: center;
+  font-weight: bold;
+  padding: 15px;
+  width: 60px;
+}
+
+.tdInput {
+	background-color:#ffffff;
+	font-weight: normal;
+	width: 100px;
+}
+
+.tdLabel {
+	font-weight: normal;
+	width: 45px;
+}
+
+.tdStatic {
+	background-color:#dddddd;
+}
+
+h1, h2, h3 {
+	font-family: arial;
+	text-align: center;
+	}
+
+p {
+	font-family:arial;
+	text-align: left;
+	font-size: 14px;
+	color: black;
+	text-align: left;
+}
+
+label {
+	font-family:arial;
+	text-align: left;
+	font-size: 18px;
+	color: black;
+	text-align: left;
+	font-style: bold;
+}
+
+input {
+	font-size: 14px;
+	text-align: center;
+	width: 40px;
+}
+
+.otherInput {
+	width: auto;
+	
+}
+
+textarea {
+	font-family:arial;
+	text-align: left;
+	font-size: 14px;
+	color: black;
+	text-align: left;
+}
+
+button {
+	background-color: #e7e7e7;
+	border: 2px solid #000000;
+	color: black;
+	padding: 8px 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 24px;
+	transition-duration: 0.2s;
+	margin-bottom: 1em;
+	}
+	.center {text-align: center;}
+	
+button:hover {
+	background-color: #ffffff;
+	border: 2px solid #000000;
+	}
+	
+body {
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: white;
+	}
+.mainMenu {
+	text-align: center;
+	margin-left: 20%;
+	margin-right: 20%;
+	display: block;
+}
+	
+.darkBody {
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: black;	
+	}
+
+.workArea {
+	display: block;
+}
+
+.pref {
+	height: 60px;
+	width:  50%;
+	size: 500;
+	font-family: arial;
+	font-size: 14px;
+}
