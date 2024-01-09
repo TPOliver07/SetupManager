@@ -2,14 +2,14 @@
 <html>
 
 <head>
-	<title>Setup App</title>
+	<title>Setup Manager</title>
 	<!-- References happen here -->
 	<link rel="stylesheet" href="style.css" type="text/css">
 	<script type = "text/javascript" src = "logic.js"></script>
 	<script type = "text/javascript" src = "handler.js"></script>
 </head>
 <body>
-<h1>Racing Setup Manager</h1>
+<h1>Setup Manager</h1>
 <!-- Need to put new file and load file buttons.-->
 <div class="workArea" id="setupSheet">
 	<div class="center">
@@ -19,6 +19,12 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<label for="date">Date: </label>
 		<input class="otherInput" type="text" id="date">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<label for="altNameCheck">Use Alternate File Name</label>
+		<input class="otherInput" type="checkbox" id="altNameCheck" onclick="display(['altName', 'altNameLabel'], 'inline-block', 'checkbox', 'altNameCheck')">
+		<br><br>
+		<label for="altName" style="display:none" id="altNameLabel">File Name: </label>
+		<input class="otherInput" type="text" id="altName" style="display:none" onchange="validateFile()">
 	</div>
 	<div class="center">
 		<h2>Weights</h2>
@@ -147,8 +153,10 @@
 				<td  class="tdInput"><input style="width:95px" type="text" id="TireAge"></td>
 			</tr>
 			<tr>
-				<td colspan="3">Toe-In</td>
-				<td colspan="2"  class="tdInput"><input type="text" id="ToeIn"> in</td>
+				<td>Toe-In</td>
+				<td class="tdInput"><input type="text" id="ToeIn"> in</td>
+				<td colspan="2">Rear Axle Offset</td>
+				<td class="tdInput"><input type="text" id="RearAxleOffset"> in</td>
 				<td colspan="2">Brake Bias</td>
 				<td colspan="2"  class="tdLabel">Front/Rear</td>
 				<td  class="tdInput"><input type="text" id="FrontBias">%</td>
@@ -197,12 +205,18 @@
 			<tr>
 		</table>
 	</div>
-	<div id="fileManager">
+	<div class="center" id="fileManager">
 		<br>
+		<span>
 		<button type="button" onclick="save()">Save</button>
+		</span>
 		<button type="button" onclick="load()">Load</button>
+		</span>
+		<span>
 		<label for="loadPathInput">File: </label>
-		<input class="otherInput" type="file" id="loadPathInput" accept=".stp">
+		<input class="otherInput" type="file" id="loadPathInput" accept=".stp" onchange="load()">
+		</span>
+		<span><button type="button" onclick="newFile()">New</button></span>
 	</div>
 	
 </div>

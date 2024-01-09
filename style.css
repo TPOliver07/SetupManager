@@ -128,3 +128,15 @@ body {
 	font-family: arial;
 	font-size: 14px;
 }
+
+span {
+    margin: 10px;
+}
+
+span:first-of-type {
+    margin-left: 0;
+}
+
+span:last-of-type {
+    margin-right: 0;
+}

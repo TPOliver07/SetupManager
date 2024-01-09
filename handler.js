@@ -3,7 +3,7 @@
 doc = "index.html"
 
 var elementIDs = [
-"track","date",
+"track","date","altName",
 "LFWeight", "RFWeight", "LRWeight", "RRWeight",
 "DriverWeight", "BallastWeight",
 "LFHeight","RFHeight","LRHeight","RRHeight",
@@ -11,7 +11,7 @@ var elementIDs = [
 "LFCamber", "RFCamber", "LFCaster", "RFCaster",
 "FStagger","RStagger","LFTireCirc", "RFTireCirc", "LRTireCirc", "RRTireCirc",
 "LFSpring","RFSpring","LRSpring","RRSpring",
-"TireSet","TireAge","ToeIn","FrontBias",
+"TireSet","TireAge","ToeIn","RearAxleOffset","FrontBias",
 "LFShock","RFShock","LRShock","RRShock",
 "PanhardAngle","PinionAngle",
 "comments", "QTime", "QPos", "QPole", "RStart", "RFinish", "CarCount"
@@ -55,7 +55,12 @@ function save() {
 	console.log(savedValues.toString());
 	// console.log(readable.toString());
 	
-	download(makeTextFile(savedValues.toString()), savedValues[0] + "_" + savedValues[1] + ".stp");
+	if (document.getElementById("altNameCheck").checked == true){
+		download(makeTextFile(savedValues.toString()), document.getElementById("altName").value);
+	}
+	else {
+		download(makeTextFile(savedValues.toString()), savedValues[0].substr(0,savedValues[0].length-1) + "_" + savedValues[1].substr(0,savedValues[1].length-1) + ".stp");
+	}
 }
 var loadedValues = [];
 function load() {
@@ -83,4 +88,47 @@ function load() {
 	
 	scaleFill();
 	
+}
+
+function newFile() {
+	var i = 0
+	while (i < elementIDs.length) {
+		document.getElementById(elementIDs[i]).value = null;
+		i += 1;
+	}
+}
+
+function display(elementID, displayType, instruction, callID) { // target element's IDs in an array, how it should be displayed, and specific instructions (if no instructions, leave blank), relevant target from instructions.
+	var i = 0;
+	while (i < elementID.length) {
+		if (instruction == "checkbox") {
+			if (document.getElementById(callID).checked == true){
+				document.getElementById(elementID[i]).style.display = displayType;
+			}
+			else {
+				if (document.getElementById(elementID[i]).style.display == "none"){
+					document.getElementById(elementID[i]).style.display = "inline-block";
+				}
+				else{
+					document.getElementById(elementID[i]).style.display = "none";
+				}
+			}
+		}
+		else {
+			document.getElementById(elementID[i]).style.display = displayType;
+		}
+		i += 1;
+	}
+}
+
+function validateFile() {
+	var tempFileName = document.getElementById("altName").value;
+	console.log(tempFileName.substr(tempFileName.length - 4, tempFileName.length-1));
+	if (tempFileName.substr(tempFileName.length - 4, tempFileName.length-1) == ".stp") {
+		return console.log("Valid file name: " + tempFileName);
+	}
+	else {
+		document.getElementById("altName").value = tempFileName + ".stp";
+		return console.log("Invalid file name: "+ tempFileName + "\nUpdated file name to: "+ tempFileName+".stp");
+	}
 }
