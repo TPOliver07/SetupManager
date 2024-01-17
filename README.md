@@ -5,6 +5,18 @@ This tool is currently designed for oval racing cars with a focus on common meas
 
 ## Versions
 
+### Version 1.1.1
+- Added Setup, Tires, and Drive tabs.
+	- Chassis tab changed to Setup tab, with most elements moving with it.
+	- Tires tab borrowed elements from old chassis tab.
+- Some style updates.
+- Fixed issue with team info banner being too small.
+- When cookies are not compatible, the user is now notified that preference data may be lost.
+	- A better system is possible which extracts some preference data from the old cookies.
+- When old save files are used, the user is notified of the likelihood of an error and then any errors that appear.
+- Added cross weight demonstrator image back to the center of weights.
+	- This image can be improved substantially, but it is necessary to make it clear to the user that cross is measured from LR to RF.
+
 ### Version 1.1.0
 - Prepared to squash bugs
 	- Added a bug report/suggestion feature.

@@ -75,11 +75,22 @@ function load(object) {
 			loadedValues = evt.target.result.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
 			// console.log(loadedValues);
 			// Need to create a way to validate files before attempting to write.
-			
+			if (save(false).match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).length != loadedValues.length) {
+				alert('This appears to be a file from a previous version. Some data could load incorrectly. If any values fail to load, you will be notified.');
+			}
 			// Assign values
+			let failedToLoad = ""; //Empty string where load failures can be added.
 			for (let i = 0; i < loadedValues.length; i++){
 				//console.log('Set ' + loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0] + ' to ' + loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[1] + '.');
-				document.getElementById(loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0]).value = loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[1];
+				if (document.getElementById(loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0]) == null) {
+					failedToLoad += ("Could not find " + loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0] + "!! The saved value is " + loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0] + ".");
+				}
+				else {
+					document.getElementById(loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0]).value = loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[1];
+				}
+			}
+			if (failedToLoad.length > 10) {
+				alert("The following saved values did not load correctly:" + failedToLoad);
 			}
 			
 		}
@@ -91,10 +102,9 @@ function load(object) {
 }
 
 function newFile() {
-	var i = 0
-	while (i < elementIDs.length) {
-		document.getElementById(elementIDs[i]).value = null;
-		i += 1;
+	elementList = document.querySelectorAll("input[data-position='setup']");
+	for (let i = 0; i < elementList.length; i++) {
+		document.getElementById(elementList[i].id).value = null;
 	}
 }
 

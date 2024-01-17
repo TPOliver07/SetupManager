@@ -11,24 +11,27 @@ var configurableNames = [
 	['Total Weight', false],
 	['Driver Weight', false],
 	['Ballast Weight', false]],
-[['Chassis', false],
+[['Setup', false],
 	['Heights', false],
-	['Air Pressure', false],
+	['Springs', false],
 	['Camber', false],
 	['Caster', false],
-	['Stagger', false],
-	['Springs', false],
-	['Tires', false],
-	['Toe-In', false],
-	['Rear Axle Offset', false],
-	['Brake Bias', false],
 	['Shocks', false],
+	['Wheelbase', false],
+	['Toe-In', false],
+	['Brake Bias', false],
 	['Panhard Bar', false],
+	['Trailing Arms', false],
 	['Pinion', false],
 	['Rear Axle Offset', false],
-	['Wheelbase', false],
-	['Top Link', false],
-	['Trailing Arms', false]],
+	['Top Link', false]],
+[['Tire Info', false],
+	['Air Pressure', false],
+	['Stagger', false],
+	['Tires', false]],
+[['Drive', false],
+	['Engine', false],
+	['Gear', false]],
 [['Notes', false],
 	['Comments', false],
 	['Qualifying Time', false],
@@ -48,7 +51,7 @@ var generalPreferences = [
 ['car', 'text','legend', 'cars'],
 ['team info', 'boolean', false, 'teamNameCheck'],
 ['team name', 'text', 'Team Name Here', 'teamNameField'],
-['team logo', 'imageURL', 'https://image.spreadshirtmedia.com/image-server/v1/compositions/T210A1PA4301PT17X47Y49D1013436206W23706H16310/views/1,width=550,height=550,appearanceId=1,backgroundColor=FFFFFF,noPt=true/your-logo-here-mens-t-shirt.jpg', 'teamLogoField'], // image will use a URL for now
+['team logo', 'imageURL', 'empty', 'teamLogoField'], // image will use a URL for now
 ['default file name', 'filename', 'None', 'defaultFileField'], // just a file
 ['default file', 'file', 'no file', 'defaultFileField'], // contentes (easier to save into cookies than reload)
 ['load on launch', 'boolean', false, 'loadOnLaunchCheckbox']
@@ -107,6 +110,11 @@ function loadPreferences() {
 				}
 			}
 		}*/
+		if (configurableNames.length != unsavedConfigs.length) {
+			alert('The cookies saved to this site do not match the current version. Some preference data may be lost.');
+			configurableNames = unsavedConfigs;
+		}
+		
 		unsavedConfigs = configurableNames; // Ensures that checkbox works correctly.
 
 		generalPreferences = parseCookies(false)[parseCookies(true).indexOf('generalPreferences')].split('~newline ');
