@@ -67,20 +67,37 @@ function scaleFill () {
 		}
 		
 		// Empty the values to prevent nonsense measurements
-		document.getElementById("TotalWeight").innerHTML = "lbs";
-		document.getElementById("CrossWeight").innerHTML = "lbs";
-		document.getElementById("CrossPct").innerHTML = "%";
-		document.getElementById("RearWeight").innerHTML = "lbs";
-		document.getElementById("RearPct").innerHTML = "%";
-		document.getElementById("LeftWeight").innerHTML = "lbs";
-		document.getElementById("LeftPct").innerHTML = "%";
-		document.getElementById("RightWeight").innerHTML = "lbs";
-		document.getElementById("RightPct").innerHTML = "%";
-		document.getElementById("LFPct").innerHTML = "%";
-		document.getElementById("RFPct").innerHTML = "%";
-		document.getElementById("LRPct").innerHTML = "%";
-		document.getElementById("RRPct").innerHTML = "%";
+		clearWeights(false)
 		
 		return console.log("Missing a corner weight!");
+	}
+}
+
+function clearWeights(clearAll) { // clearType controls whether inputs or outputs only should be cleared.
+	// Outputs are always cleared.
+	document.getElementById("TotalWeight").innerHTML = "lbs";
+	document.getElementById("CrossWeight").innerHTML = "lbs";
+	document.getElementById("CrossPct").innerHTML = "%";
+	document.getElementById("RearWeight").innerHTML = "lbs";
+	document.getElementById("RearPct").innerHTML = "%";
+	document.getElementById("LeftWeight").innerHTML = "lbs";
+	document.getElementById("LeftPct").innerHTML = "%";
+	document.getElementById("RightWeight").innerHTML = "lbs";
+	document.getElementById("RightPct").innerHTML = "%";
+	document.getElementById("LFPct").innerHTML = "%";
+	document.getElementById("RFPct").innerHTML = "%";
+	document.getElementById("LRPct").innerHTML = "%";
+	document.getElementById("RRPct").innerHTML = "%";
+	
+	// Inputs can be cleared
+	if (clearAll == true) {
+		document.getElementById("LFWeight").value = null;
+		document.getElementById("RFWeight").value = null;
+		document.getElementById("LRWeight").value = null;
+		document.getElementById("RRWeight").value = null;
+		document.getElementById("LFParent").style.backgroundColor = "#ffffff";
+		document.getElementById("LRParent").style.backgroundColor = "#ffffff";
+		document.getElementById("RFParent").style.backgroundColor = "#ffffff";
+		document.getElementById("RRParent").style.backgroundColor = "#ffffff";
 	}
 }

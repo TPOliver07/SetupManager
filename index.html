@@ -2,221 +2,673 @@
 <html>
 
 <head>
-	<title>Setup Manager</title>
+	<title>Open Source Setup Manager</title>
 	<!-- References happen here -->
 	<link rel="stylesheet" href="style.css" type="text/css">
 	<script type = "text/javascript" src = "logic.js"></script>
-	<script type = "text/javascript" src = "handler.js"></script>
+	<script type = "text/javascript" src = "handler.js" defer></script>
+	<script type = "text/javascript" src = "preferences.js" defer></script>
 </head>
 <body>
-<h1>Setup Manager</h1>
-<!-- Need to put new file and load file buttons.-->
-<div class="workArea" id="setupSheet">
-	<div class="center">
-		<h2>Setup Information</h2>
-		<label for="track">Track: </label>
-		<input class="otherInput" type="text" id="track">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<label for="date">Date: </label>
-		<input class="otherInput" type="text" id="date">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<label for="altNameCheck">Use Alternate File Name</label>
-		<input class="otherInput" type="checkbox" id="altNameCheck" onclick="display(['altName', 'altNameLabel'], 'inline-block', 'checkbox', 'altNameCheck')">
-		<br><br>
-		<label for="altName" style="display:none" id="altNameLabel">File Name: </label>
-		<input class="otherInput" type="text" id="altName" style="display:none" onchange="validateFile()">
-	</div>
-	<div class="center">
-		<h2>Weights</h2>
-		<table class="mainTable" id="cross">
-			<tr>
-				<td rowspan="2">LF Weight</td>
-				<td class="tdInput" id="LFParent"><input type="text" id="LFWeight" onchange="scaleFill()"> lbs</td>
-				<td rowspan="2" style="width: 175px">Cross Weight</td>
-				<td id="CrossWeight" class="tdStatic" style="width: 225px"> lbs</td>
-				<td rowspan="2">RF Weight</td>
-				<td class="tdInput" id="RFParent"><input type="text" id="RFWeight" onchange="scaleFill()"> lbs</td>
-			</tr>
-			<tr>
-				<td id="LFPct" class="tdInput"> %</td>
-				<td id="CrossPct" class="tdStatic"> %</td>
-				<td id="RFPct" class="tdInput"> %</td>
-			</tr>
-			<tr>
-				<td colspan="2" height="125 pixels"><button type="button" onclick="scaleFill()">Calculate</button></td>
-				<td rowspan="4" colspan="2" style="width: 450px" height="400 pixels"><img src="cross.png" width="400" height="400"></img></td>
-				<td colspan="2" height="125 pixels"></td>
-			</tr>
-			<tr>
-				<td rowspan="2">Left Side</td>
-				<td id="LeftWeight" class="tdStatic"> lbs</td>
-				<td rowspan="2">Right Side</td>
-				<td id="RightWeight" class="tdStatic"> lbs</td>
-			</tr>
-			<tr>
-				<td id="LeftPct" class="tdStatic"> %</td>
-				<td id="RightPct" class="tdStatic"> %</td>
-			</tr>
-			<tr>
-				<td colspan="2" height="125 pixels"></td>
-				<td colspan="2" height="125 pixels"></td>
-			</tr>
-			<tr>
-				<td rowspan="2">LR Weight</td>
-				<td class="tdInput" id="LRParent"><input type="text" id="LRWeight" onchange="scaleFill()"> lbs</td>
-				<td rowspan="2">Rear Weight</td>
-				<td id="RearWeight" class="tdStatic"> lbs</td>
-				<td rowspan="2">RR Weight</td>
-				<td class="tdInput" id="RRParent"><input type="text" id="RRWeight" onchange="scaleFill()"> lbs</td>
-			</tr>
-			<tr>
-				<td id="LRPct" class="tdStatic"> %</td>
-				<td id="RearPct" class="tdStatic"> %</td>
-				<td id="RRPct" class="tdStatic"> %</td>
-			</tr>
-			<tr>
-				<td>Driver Weight</td>
-				<td class="tdInput"><input type="text" id="DriverWeight"> lbs</td>
-				<td>Total Weight</td>
-				<td id="TotalWeight" class="tdStatic"> lbs</td>
-				<td>Ballast Weight</td>
-				<td class="tdInput"><input type="text" id="BallastWeight"> lbs</td>
-			</tr>
-		</table>
-		<h2>Chassis</h2>
-		<table class="mainTable" id="chassis">
-			<tr>
-				<td rowspan="2">Ride Height</td>
-				<td class="tdLabel">LF</td>
-				<td  class="tdInput"><input type="text" id="LFHeight" style="width:65px"> in</td>
-				<td class="tdLabel">RF</td>
-				<td  class="tdInput"><input type="text" id="RFHeight" style="width:65px"> in</td>
-				<td rowspan="2">Air Pressure</td>
-				<td class="tdLabel">LF</td>
-				<td  class="tdInput"><input type="text" id="LFPressure"> PSI</td>
-				<td class="tdLabel">RF</td>
-				<td  class="tdInput"><input type="text" id="RFPressure"> PSI</td>
-			</tr>
-			<tr>
-				<td class="tdLabel">LR</td>
-				<td  class="tdInput"><input type="text" id="LRHeight" style="width:65px"> in</td>
-				<td class="tdLabel">RR</td>
-				<td  class="tdInput"><input type="text" id="RRHeight" style="width:65px"> in</td>
-				<td class="tdLabel">LR</td>
-				<td  class="tdInput"><input type="text" id="LRPressure"> PSI</td>
-				<td class="tdLabel">RR</td>
-				<td  class="tdInput"><input type="text" id="RRPressure"> PSI</td>
-			</tr>
-			<tr>
-				<td>Camber</td>
-				<td class="tdLabel">LF</td>
-				<td  class="tdInput"><input type="text" id="LFCamber">&deg;</td>
-				<td class="tdLabel">RF</td>
-				<td  class="tdInput"><input type="text" id="RFCamber">&deg;</td>
-				<td rowspan="3">Stagger</td>
-				<td class="tdLabel">Front</td>
-				<td  class="tdInput"><input type="text" id="FStagger" style="width:65px"> in</td>
-				<td class="tdLabel">Rear</td>
-				<td  class="tdInput"><input type="text" id="RStagger" style="width:65px"> in</td>
-			</tr>
-			<tr>
-				<td>Caster</td>
-				<td class="tdLabel">LF</td>
-				<td  class="tdInput"><input type="text" id="LFCaster">&deg;</td>
-				<td class="tdLabel">RF</td>
-				<td  class="tdInput"><input type="text" id="RFCaster">&deg;</td>
-				<td class="tdLabel">LF</td>
-				<td  class="tdInput"><input type="text" id="LFTireCirc" style="width:65px"> in</td>
-				<td class="tdLabel">RF</td>
-				<td  class="tdInput"><input type="text" id="RFTireCirc" style="width:65px"> in</td>
-			</tr>
-			<tr>
-				<td rowspan="2">Springs</td>
-				<td class="tdLabel">LF</td>
-				<td  class="tdInput"><input type="text" id="LFSpring"> lbs/in</td>
-				<td class="tdLabel">RF</td>
-				<td  class="tdInput"><input type="text" id="RFSpring"> lbs/in</td>
-				<td class="tdLabel">LR</td>
-				<td  class="tdInput"><input type="text" id="LRTireCirc" style="width:65px"> in</td>
-				<td class="tdLabel">RR</td>
-				<td  class="tdInput"><input type="text" id="RRTireCirc" style="width:65px"> in</td>
-			</tr>
-			<tr>
-				<td class="tdLabel">LR</td>
-				<td  class="tdInput"><input type="text" id="LRSpring"> lbs/in</td>
-				<td class="tdLabel">RR</td>
-				<td  class="tdInput"><input type="text" id="RRSpring"> lbs/in</td>
-				<td>Tires</td>
-				<td class="tdLabel">Set</td>
-				<td  class="tdInput"><input style="width:95px" type="text" id="TireSet"></td>
-				<td class="tdLabel">Age</td>
-				<td  class="tdInput"><input style="width:95px" type="text" id="TireAge"></td>
-			</tr>
-			<tr>
-				<td>Toe-In</td>
-				<td class="tdInput"><input type="text" id="ToeIn"> in</td>
-				<td colspan="2">Rear Axle Offset</td>
-				<td class="tdInput"><input type="text" id="RearAxleOffset"> in</td>
-				<td colspan="2">Brake Bias</td>
-				<td colspan="2"  class="tdLabel">Front/Rear</td>
-				<td  class="tdInput"><input type="text" id="FrontBias">%</td>
-			</tr>
-			<tr>
-				<td rowspan="2">Shocks (Valving)</td>
-				<td class="tdLabel">LF</td>
-				<td  class="tdInput"><input type="text" id="LFShock"></td>
-				<td class="tdLabel">RF</td>
-				<td  class="tdInput"><input type="text" id="RFShock"></td>
-				<td rowspan="2" colspan="2">Panhard Bar Angle</td>
-				<td rowspan="2" class="tdInput"><input type="text" id="PanhardAngle">&deg;</td>
-				<td rowspan="2" >Pinion Angle</td>
-				<td rowspan="2" class="tdInput"><input type="text" id="PinionAngle">&deg;</td>
-			</tr>
-			<tr>
-				<td class="tdLabel">LR</td>
-				<td class="tdInput"><input type="text" id="LRShock"></td>
-				<td class="tdLabel">RR</td>
-				<td class="tdInput"><input type="text" id="RRShock"></td>
-			</tr>
-		</table>
-		<h2>Notes</h2>
-		<table class="mainTable" id="notes">
-			<tr>
-				<td class="tdLabel" style="width: 50px">Comments</td>
-				<td class="tdInput" colspan="3" style="width: 450px"><textarea id="comments" rows="4" cols="70"></textarea></td>
-			</tr>
-			<tr>
-				<td class="tdLabel">Qualifying Time</td>
-				<td class="tdInput"><input type="text" id="QTime" style="width:100px"></td>
-				<td class="tdLabel">Started Race</td>
-				<td class="tdInput"><input type="text" id="RStart"></td>
-			<tr>
-			<tr>
-				<td class="tdLabel">Qualifying Position</td>
-				<td class="tdInput"><input type="text" id="QPos" style="width:100px"></td>
-				<td class="tdLabel">Finished Race</td>
-				<td class="tdInput"><input type="text" id="RFinish"></td>
-			<tr>
-			<tr>
-				<td class="tdLabel">Pole Time</td>
-				<td class="tdInput"><input type="text" id="QPole" style="width:100px"></td>
-				<td class="tdLabel">Car Count</td>
-				<td class="tdInput"><input type="text" id="CarCount"></td>
-			<tr>
-		</table>
-	</div>
-	<div class="center" id="fileManager">
-		<br>
-		<span>
-		<button type="button" onclick="save()">Save</button>
-		</span>
-		<button type="button" onclick="load()">Load</button>
-		</span>
-		<span>
-		<label for="loadPathInput">File: </label>
-		<input class="otherInput" type="file" id="loadPathInput" accept=".stp" onchange="load()">
-		</span>
-		<span><button type="button" onclick="newFile()">New</button></span>
-	</div>
-	
+<h1>Open Source Setup Manager</h1>
+<h2>US Legends</h2>
+<div class="mainMenu" id="landing">
+	<p>Welcome to the Setup Manager. You can use this tool to create, edit, and modify racing setups targetting US Legends Cars. 
+	This tool is being actively developed, and your use and feedback during this phase will be helpful in creating an even more useful tool
+	further down the road. This version of the tool will always be available for free, without ads, through this <a href='https://github.com/TPOliver07/SetupManager'>public repository.</a>
+	<b>This is the last major update that this version of the tool will recieve.</b></p>
+	<h3>Select</h3>
+	<span><button type="button" onclick="newFile(), display(['setupSheet'],'inline-block','menu','landing')">New Setup</button></span>
+	<span><button type="button" onclick="load('loadLandingPathInput'), display(['setupSheet'],'inline-block','menu','landing')">Load Setup</button></span>
+	<span><label for="loadLandingPathInput">File: </label>
+	<input class="otherInput" type="file" id="loadLandingPathInput" accept=".stp" onchange="load('loadLandingPathInput')"></span>
+	<span><button type="button" onclick="newFile(), display(['preferences'],'block', 'menu', 'landing'), getObjects('objectList'), checkDisplay('objectList','objectHideCheckbox')">Preferences</button></span>
 </div>
+<div class="teamInfo" id="teamInfo" name="Team Info">
+	<div class='center-both' style="width: 70%; float: left; height:100px; "><h2 id="Team Name" name="Team Name">Your Team Name</h2></div>
+	<div style="width: 30%; float:left; height:100px;"><img src="data:image/jpeg;base64,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"
+	class="teamLogo" id="teamLogo" name="Team Logo"></img></div>
+</div>
+
+
+
+<div class="workArea" id="setupSheet">
+	<div class="tabHeader" id="tabDiv">
+		<button type="button" class="tab tabActive" id="infoTab" name="tabButton" onclick="changeTab('infoBlock','infoTab')">File Info</button>
+		<button type="button" class="tab tabInactive" id="weightsTab" name="tabButton" onclick="changeTab('weightsBlock','weightsTab')">Weights</button>
+		<button type="button" class="tab tabInactive" id="chassisTab" name="tabButton" onclick="changeTab('chassisBlock','chassisTab')">Chassis</button>
+		<button type="button" class="tab tabInactive" id="notesTab" name="tabButton" onclick="changeTab('notesBlock','notesTab')">Notes</button>
+	</div>
+	<div class="infoBlock" id="infoBlock"  name="tab">
+		<h2>Setup Information</h2>
+		<span style="display:block"><label for="track">Track: </label>
+		<input class="otherInput" type="text" id="track" data-position="setup">
+		<label for="date">Date: </label>
+		<input class="otherInput" type="text" id="date" data-position="setup"></span>
+		<span style="display:block"><label for="driver">Driver: </label>
+		<input class="otherInput" type="text" id="driver" data-position="setup">
+		<label for="chassisName">Chassis: </label>
+		<input class="otherInput" type="text" id="chassisName" data-position="setup"></span>
+		<span style="display:block"><label for="altNameCheck">Use Alternate File Name</label>
+		<input class="otherInput" type="checkbox" id="altNameCheck" onclick="display(['altName', 'altNameLabel'], 'inline-block', 'checkbox', 'altNameCheck')" data-position="setup">
+		</span>
+		<label for="altName" style="display:none" id="altNameLabel">File Name: </label>
+		<input class="otherInput" type="text" id="altName" style="display:none" onchange="validateFile()" data-position="setup">
+		<div class="center" id="fileManager">
+			<br>
+			<span>
+			<button type="button" onclick="save(true)">Save Setup</button>
+			</span>
+			<button type="button" onclick="load('loadPathInput')">Load Setup</button>
+			</span>
+			<span>
+			<label for="loadPathInput">File: </label>
+			<input class="otherInput" type="file" id="loadPathInput" accept=".stp" onchange="load('loadPathInput')">
+			</span>
+			<span><button type="button" onclick="newFile()">New</button></span>
+			<span><button type="button" onclick="display(['preferences'],'block', 'menu', 'setupSheet'), getObjects('objectList'), checkDisplay('objectList','objectHideCheckbox')">Preferences</button></span>
+		</div>
+	</div>
+	<div class="workBlock" id="weightsBlock"  name="tab"  style="display:none">
+		<!-- Use nested tables to create a more modular design -->
+		
+		<div class='center-both' style="margin-left: 10%; width: 20%; float: left; height:50px; text-align: center;"><button type="button" id="clearWeightsBtn" onclick="clearWeights(true)">Clear</button></div>
+		<div style="width: 40%; float: left; height:50px; text-align: center;"><h2>Weights</h2></div>
+		<div class='center-both' style="margin-right: 10%; width: 20%; float: left; height:50px; text-align: center;"><button type="button" id="calculateWeightsBtn" onclick="scaleFill()">Calculate</button></div>
+		<table class="containerTable" id="Weights" name="Weights">
+			<tr>
+				<td style="width: 25%;" id="LFWeightContainer" class="tdContainer">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" id="LFParent" rowspan="2">LF</td>
+							<td class="tdInput"><input type="text" id="LFWeight" onchange="scaleFill()" data-position="setup">lbs</td>
+						</tr>
+							<td class="tdStatic" id="LFPct">%</td>
+					</table></div>
+				</td>
+				<td style="width: 50%" id="CrossWeightContainer" class="tdContainer" name="Cross Weight">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" rowspan="2">Cross</td>
+							<td class="tdStatic" id="CrossWeight">lbs</td>
+						</tr>
+							<td class="tdStatic" id="CrossPct"> %</td>
+					</table></div>
+				</td>
+				<td style="width: 25%" id="RFWeightContainer" class="tdContainer">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" id="RFParent" rowspan="2">RF</td>
+							<td class="tdInput"><input type="text" id="RFWeight" onchange="scaleFill()" data-position="setup"> lbs</td>
+						</tr>
+							<td class="tdStatic" id="RFPct"> %</td>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td style="height: 250px" class="tdContainer" name="Left Weight">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" style="border-bottom: 1px solid #000000; border-right: 0px;">Left Side</td>
+						</tr>
+						<tr>
+							<td class="tdStatic" id="LeftWeight"> lbs</td>
+						</tr>
+						<tr>
+							<td class="tdStatic" id="LeftPct"> %</td>
+						</tr>
+					</table></div>
+				</td>
+				<td style="height: 250px" class="tdContainer">
+					
+				</td>
+				<td style="height: 250px" class="tdContainer" name="Right Weight">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" style="border-bottom: 1px solid #000000; border-right: 0px;">Right Side</td>
+						</tr>
+						<tr>
+							<td class="tdStatic" id="RightWeight"> lbs</td>
+						</tr>
+						<tr>
+							<td class="tdStatic" id="RightPct"> %</td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td  class="tdContainer" id="LRWeightContainer">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" rowspan="2">LR</td>
+							<td class="tdInput" id="LRParent"><input type="text" id="LRWeight" onchange="scaleFill()" data-position="setup"> lbs</td>
+						</tr>
+							<td class="tdStatic" id="LRPct"> %</td>
+					</table></div>
+				</td>
+				<td  class="tdContainer" id="RearWeightContainer"  name="Rear Weight">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" rowspan="2">Rear</td>
+							<td class="tdStatic" id="RearWeight">lbs</td>
+						</tr>
+							<td class="tdStatic" id="RearPct"> %</td>
+					</table></div>
+				</td>
+				<td  class="tdContainer" id="RRWeightContainer">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" rowspan="2">RR</td>
+							<td class="tdInput" id="RRParent"><input type="text" id="RRWeight" onchange="scaleFill()" data-position="setup"> lbs</td>
+						</tr>
+							<td class="tdStatic" id="RRPct"> %</td>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td  class="tdContainer" id="DriverWeightContainer"  name="Driver Weight">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" style="border-bottom: 1px solid #000000; border-right: 0px;">Driver Weight</td>
+						</tr>
+							<td class="tdInput" style="border: 0px;"><input type="text" id="DriverWeight" data-position="setup"> lbs</td>
+					</table></div>
+				</td>
+				<td  class="tdContainer" id="TotalWeightContainer"  name="Total Weight">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" style="border-bottom: 1px solid #000000; border-right: 0px;">Total Weight</td>
+						</tr>
+							<td class="tdStatic" style="border: 0px;" id="TotalWeight"> lbs</td>
+					</table></div>
+				</td>
+				<td  class="tdContainer" id="BallastWeightContainer" name="Ballast Weight">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel" style="border-bottom: 1px solid #000000; border-right: 0px;">Ballast Weight</td>
+						</tr>
+							<td class="tdInput" style="border: 0px;"><input type="text" id="BallastWeight" data-position="setup"> lbs</td>
+					</table></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="workBlock" id="chassisBlock"  name="tab"  style="display:none">
+		<h2>Chassis</h2>
+		<table class="containerTable" id="chassisContainer"> <!--Two-by-n table that should emphasize modular design eventually -->
+			<tr>
+				<td class="tdContainer" id="HeightsContainer" style="height: 100px;"  name="Heights">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Ride Height</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LFHeight" data-position="setup"> in</td>
+							<td class="tdLabel-fourwheels">RF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RFHeight" data-position="setup"> in</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LRHeight" data-position="setup"> in</td>
+							<td class="tdLabel-fourwheels">RR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RRHeight" data-position="setup"> in</td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="PressureContainer"  style="height: 100px;" name="Air Pressure">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Air Pressure</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LFPressure" data-position="setup"> PSI</td>
+							<td class="tdLabel-fourwheels">RF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RFPressure" data-position="setup"> PSI</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LRPressure" data-position="setup"> PSI</td>
+							<td class="tdLabel-fourwheels">RR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RRPressure" data-position="setup"> PSI</td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+				<td class="tdContainer" id="CamberContainer" name="Camber">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Camber</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LFCamber" data-position="setup">&deg</td>
+							<td class="tdLabel-fourwheels">RF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RFCamber" data-position="setup">&deg</td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="CasterContainer" name="Caster">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Caster</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LFCaster" data-position="setup">&deg</td>
+							<td class="tdLabel-fourwheels">RF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RFCaster" data-position="setup">&deg</td>
+						</tr>
+					</table></div>
+				</td>
+			<tr>
+				<td class="tdContainer" id="ShocksContainer" style="height: 100px;"  name="Shocks">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Shocks</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LFShock" data-position="setup"> <sup>in&middot;lbs</sup>&frasl;<sub>sec</sub></td>
+							<td class="tdLabel-fourwheels">RF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RFShock" data-position="setup"> <sup>in&middot;lbs</sup>&frasl;<sub>sec</sub></td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LRShock" data-position="setup"> <sup>in&middot;lbs</sup>&frasl;<sub>sec</sub></td>
+							<td class="tdLabel-fourwheels">RR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RRShock" data-position="setup"> <sup>in&middot;lbs</sup>&frasl;<sub>sec</sub></td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="SpringsContainer" style="height: 100px;" name="Springs">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Springs</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LFSpring" data-position="setup"> <sup>lbs</sup>&frasl;<sub>in</sub></td>
+							<td class="tdLabel-fourwheels">RF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RFSpring" data-position="setup"> <sup>lbs</sup>&frasl;<sub>in</sub></td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LRSpring" data-position="setup"> <sup>lbs</sup>&frasl;<sub>in</sub></td>
+							<td class="tdLabel-fourwheels">RR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RRSpring" data-position="setup"> <sup>lbs</sup>&frasl;<sub>in</sub></td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdContainer" id="StaggerContainer" style="height: 125px;" name="Stagger">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Stagger</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LFTireCirc" data-position="setup"> in</td>
+							<td class="tdLabel-fourwheels">RF</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RFTireCirc" data-position="setup"> in</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LRTireCirc" data-position="setup"> in</td>
+							<td class="tdLabel-fourwheels">RR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RRTireCirc" data-position="setup"> in</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">Front</td>
+							<td class="tdInput-fourwheels"><input type="text" id="FStagger" data-position="setup"> in</td>
+							<td class="tdLabel-fourwheels">Rear</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RStagger" data-position="setup"> in</td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="TireContainer" style="height: 100px;" name="Tires">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Tires</td>
+						</tr>
+						<tr>
+							<td class="tdLabel">Set</td>
+							<td class="tdInput"><input type="text" id="TireSet" style="width: 80%" data-position="setup"></td>
+						</tr>
+						<tr>
+							<td class="tdLabel">Age</td>
+							<td class="tdInput"><input type="text" id="TireAge" data-position="setup"> laps</td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdContainer" id="ToeInContainer" style="height: 50px;" name="Toe-In">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel">Toe-In</td>
+							<td class="tdInput"><input type="text" id="ToeIn" data-position="setup"> in</td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="BrakeBiasContainer" style="height: 50px;" name="Brake Bias">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel">Brake Bias</td>
+							<td class="tdInput"><input type="text" id="FrontBias" data-position="setup">%<sup>Front</sup>&frasl;<sub>Rear</sub></td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdContainer" id="RearAxleOffsetContainer" style="height: 50px;" name="Rear Axle Offset">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel">Rear Axle Offset</td>
+							<td class="tdInput"><input type="text" id="RearAxleOffset" data-position="setup"> in</td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="WheelbaseContainer" name="Wheelbase">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Wheelbase</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">Left</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LeftWheelbase" data-position="setup"> in</td>
+							<td class="tdLabel-fourwheels">Right</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RightWheelbase" data-position="setup"> in</td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdContainer" id="PanhardContainer" style="height: 50px;" name="Panhard Bar">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel">Panhard Bar Angle</td>
+							<td class="tdInput"><input type="text" id="PanhardAngle" data-position="setup">&deg;</td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="PinionContainer" style="height: 50px;" name="Pinion">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel">Pinion Angle</td>
+							<td class="tdInput"><input type="text" id="PinionAngle" data-position="setup">&deg;</td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdContainer" id="TopLinkContainer" style="height: 50px;" name="Top Link">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td class="tdLabel">Top Link Angle</td>
+							<td class="tdInput"><input type="text" id="TopLinkAngle" data-position="setup">&deg;</td>
+						</tr>
+					</table></div>
+				</td>
+				<td class="tdContainer" id="TrailingArmContainer" name="Trailing Arms">
+					<div class="roundContainer"><table class="nestedTable">
+						<tr>
+							<td colspan="4" class="tdTitle-fourwheels">Trailing Arm Angles</td>
+						</tr>
+						<tr>
+							<td class="tdLabel-fourwheels">LR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="LRTrailingArm" data-position="setup">&deg;</td>
+							<td class="tdLabel-fourwheels">RR</td>
+							<td class="tdInput-fourwheels"><input type="text" id="RRTrailingArm" data-position="setup">&deg;</td>
+						</tr>
+					</table></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!--<div class="workBlock">
+		<h2>Chassis</h2>
+		<table class="mainTable" id="chassis" name="Chassis">
+			<tr>
+				<td rowspan="2" id="RHLabel" name="Heights">Ride Height</td>
+				<td class="tdLabel" name="Heights">LF</td>
+				<td  class="tdInput"  name="Heights"><input type="text" id="LFHeight" style="width:65px"> in</td>
+				<td class="tdLabel" id="RFRHLabel" name="Heights">RF</td>
+				<td  class="tdInput" id="RFRHContainer" name="Heights"><input type="text" id="RFHeight" style="width:65px"> in</td>
+				<td rowspan="2" name="Air Pressure">Air Pressure</td>
+				<td class="tdLabel" name="Air Pressure">LF</td>
+				<td  class="tdInput" name="Air Pressure"><input type="text" id="LFPressure"> PSI</td>
+				<td class="tdLabel" name="Air Pressure">RF</td>
+				<td  class="tdInput" name="Air Pressure"><input type="text" id="RFPressure"> PSI</td>
+			</tr>
+			<tr>
+				<td class="tdLabel" name="Heights">LR</td>
+				<td  class="tdInput" name="Heights"><input type="text" id="LRHeight" name="Heights" style="width:65px"> in</td>
+				<td class="tdLabel" name="Heights">RR</td>
+				<td  class="tdInput" name="Heights"><input type="text" id="RRHeight" name="Heights" style="width:65px"> in</td>
+				<td class="tdLabel" name="Air Pressure">LR</td>
+				<td  class="tdInput"  name="Air Pressure"><input type="text" id="LRPressure"> PSI</td>
+				<td class="tdLabel" name="Air Pressure">RR</td>
+				<td  class="tdInput" name="Air Pressure"><input type="text" id="RRPressure"> PSI</td>
+			</tr>
+			<tr>
+				<td name="Camber">Camber</td>
+				<td class="tdLabel" name="Camber">LF</td>
+				<td  class="tdInput" name="Camber"><input type="text" id="LFCamber">&deg;</td>
+				<td class="tdLabel" name="Camber">RF</td>
+				<td  class="tdInput" name="Camber"><input type="text" id="RFCamber">&deg;</td>
+				<td rowspan="3" name="Stagger">Stagger</td>
+				<td class="tdLabel" name="Stagger">Front</td>
+				<td  class="tdInput" name="Stagger"><input type="text" id="FStagger" style="width:65px"> in</td>
+				<td class="tdLabel" name="Stagger">Rear</td>
+				<td  class="tdInput" name="Stagger"><input type="text" id="RStagger" style="width:65px"> in</td>
+			</tr>
+			<tr>
+				<td name="Caster">Caster</td>
+				<td class="tdLabel" name="Caster">LF</td>
+				<td  class="tdInput" name="Caster"><input type="text" id="LFCaster">&deg;</td>
+				<td class="tdLabel" name="Caster">RF</td>
+				<td  class="tdInput" name="Caster"><input type="text" id="RFCaster">&deg;</td>
+				<td class="tdLabel" name="Stagger">LF</td>
+				<td  class="tdInput" name="Stagger"><input type="text" id="LFTireCirc" style="width:65px"> in</td>
+				<td class="tdLabel" name="Stagger">RF</td>
+				<td  class="tdInput" name="Stagger"><input type="text" id="RFTireCirc" style="width:65px"> in</td>
+			</tr>
+			<tr>
+				<td rowspan="2" name="Springs">Springs</td>
+				<td class="tdLabel" name="Springs">LF</td>
+				<td  class="tdInput" name="Springs"><input type="text" id="LFSpring"> lbs/in</td>
+				<td class="tdLabel" name="Springs">RF</td>
+				<td  class="tdInput" name="Springs"><input type="text" id="RFSpring"> lbs/in</td>
+				<td class="tdLabel" name="Stagger">LR</td>
+				<td  class="tdInput" name="Stagger"><input type="text" id="LRTireCirc" style="width:65px"> in</td>
+				<td class="tdLabel" name="Stagger">RR</td>
+				<td  class="tdInput" name="Stagger"><input type="text" id="RRTireCirc" style="width:65px"> in</td>
+			</tr>
+			<tr>
+				<td class="tdLabel" name="Springs">LR</td>
+				<td  class="tdInput" name="Springs"><input type="text" id="LRSpring"> lbs/in</td>
+				<td class="tdLabel" name="Springs">RR</td>
+				<td  class="tdInput" name="Springs"><input type="text" id="RRSpring"> lbs/in</td>
+				<td name="Tires">Tires</td>
+				<td class="tdLabel" name="Tires">Set</td>
+				<td  class="tdInput" name="Tires"><input style="width:95px" type="text" id="TireSet"></td>
+				<td class="tdLabel" name="Tires">Age</td>
+				<td  class="tdInput" name="Tires"><input style="width:95px" type="text" id="TireAge"></td>
+			</tr>
+			<tr>
+				<td name="Toe-In">Toe-In</td>
+				<td class="tdInput" name="Toe-In"><input type="text" id="ToeIn"> in</td>
+				<td colspan="2" name="Rear Axle Offset">Rear Axle Offset</td>
+				<td class="tdInput" name="Rear Axle Offset"><input type="text" id="RearAxleOffset"> in</td>
+				<td colspan="2" name="Brake Bias">Brake Bias</td>
+				<td colspan="2"  class="tdLabel" name="Brake Bias">Front/Rear</td>
+				<td  class="tdInput" name="Brake Bias"><input type="text" id="FrontBias">%</td>
+			</tr>
+			<tr>
+				<td rowspan="2" name="Shocks">Shocks (Valving)</td>
+				<td class="tdLabel" name="Shocks">LF</td>
+				<td  class="tdInput" name="Shocks"><input type="text" id="LFShock"></td>
+				<td class="tdLabel" name="Shocks">RF</td>
+				<td  class="tdInput" name="Shocks"><input type="text" id="RFShock"></td>
+				<td rowspan="2" colspan="2" name="Panhard Bar">Panhard Bar Angle</td>
+				<td rowspan="2" class="tdInput" name="Panhard Bar"><input type="text" id="PanhardAngle">&deg;</td>
+				<td rowspan="2" name="Pinion">Pinion Angle</td>
+				<td rowspan="2" class="tdInput" name="Pinion"><input type="text" id="PinionAngle">&deg;</td>
+			</tr>
+			<tr>
+				<td class="tdLabel" name="Shocks">LR</td>
+				<td class="tdInput" name="Shocks"><input type="text" id="LRShock"></td>
+				<td class="tdLabel" name="Shocks">RR</td>
+				<td class="tdInput" name="Shocks"><input type="text" id="RRShock"></td>
+			</tr>
+		</table>-->
+	<div class="workBlock" id="notesBlock"  name="tab" style="display:none">
+		<h2>Notes</h2>
+		<table class="containerTable" id="notesContainer">
+		<tr>
+			<td colspan="2" class="tdContainer" id="commentContainer" style="height: 150px;">
+				<div class="roundContainer">
+					<label for="comments">Comments: </label><br>
+					<textarea id="comments" rows="5" cols="80"  data-position="setup"></textarea>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="tdContainer" id="QualifyingContainer" style="height: 175px;">
+				<div class="roundContainer"><table class="nestedTable">
+					<tr>
+						<td colspan="2" class="tdTitle-fourwheels">Qualifying</td>
+					</tr>
+					<tr>
+						<td class="tdLabel">Qualifying Time</td>
+						<td class="tdInput"><input type="text" id="QTime" style="width: 75px;" data-position="setup"> sec</td>
+					</tr>
+					<tr>
+						<td class="tdLabel">Pole Time</td>
+						<td class="tdInput"><input type="text" id="QPole" style="width: 75px;" data-position="setup"> sec</td>
+					</tr>
+					<tr>
+						<td class="tdLabel">Qualifying Position</td>
+						<td class="tdInput"><input type="text" id="QPos" data-position="setup"></td>
+					</tr>
+				</table></div>
+			</td>
+			<td class="tdContainer" id="RaceContainer" style="height: 175px;">
+				<div class="roundContainer"><table class="nestedTable">
+					<tr>
+						<td colspan="2" class="tdTitle-fourwheels">Race</td>
+					</tr>
+					<tr>
+						<td class="tdLabel">Started Race</td>
+						<td class="tdInput"><input type="text" id="RStart" style="width: 75px;" data-position="setup"></td>
+					</tr>
+					<tr>
+						<td class="tdLabel">Finished Race</td>
+						<td class="tdInput"><input type="text" id="RFinish" style="width: 75px;" data-position="setup"></td>
+					</tr>
+					<tr>
+						<td class="tdLabel">Car Count</td>
+						<td class="tdInput"><input type="text" id="CarCount" data-position="setup"> cars</td>
+					</tr>
+				</table></div>
+			</td>
+		</tr>
+		</table>
+	</div>
+		<!--<h2>Notes</h2>
+		<table class="mainTable" id="notes" name="Notes">
+			<tr>
+				<td class="tdLabel" style="width: 50px" name="Comments">Comments</td>
+				<td class="tdInput" colspan="3" style="width: 450px" name="Comments"><textarea id="comments" rows="4" cols="70"></textarea></td>
+			</tr>
+			<tr>
+				<td class="tdLabel" name="Qualifying Time">Qualifying Time</td>
+				<td class="tdInput" name="Qualifying Time"><input type="text" id="QTime" style="width:100px"></td>
+				<td class="tdLabel" name="Started Race">Started Race</td>
+				<td class="tdInput" name="Started Race"><input type="text" id="RStart"></td>
+			<tr>
+			<tr>
+				<td class="tdLabel" name="Qualifying Position">Qualifying Position</td>
+				<td class="tdInput" name="Qualifying Position"><input type="text" id="QPos" style="width:100px"></td>
+				<td class="tdLabel" name="Finished Race">Finished Race</td>
+				<td class="tdInput" name="Finished Race"><input type="text" id="RFinish"></td>
+			<tr>
+			<tr>
+				<td class="tdLabel" name="Pole Time">Pole Time</td>
+				<td class="tdInput" name="Pole Time"><input type="text" id="QPole" style="width:100px"></td>
+				<td class="tdLabel" name="Car Count">Car Count</td>
+				<td class="tdInput" name="Car Count"><input type="text" id="CarCount"></td>
+			<tr>
+		</table>
+	</div>-->
+</div>
+
+<div class="infoBlock" id="preferences" style='display:none; margin-left: 10%; width: 80%;'>
+	<h2>Preferences</h2>
+	<form onsubmit="return updatePreferences()">
+		<p class='center'>Cars besides the US Legend Car are not currently implemented.</p>
+		<label for="cars">Choose a car:</label>
+		<select id="cars">
+			<optgroup label="Paved Oval">
+				<option value="legend">US Legend Car</option>
+				<!--<option value="late model">Late Model (Not implemented)</option>
+				<option value="street stock">Street Stock (Not implemented)</option>-->
+			</optgroup>
+			<!--<optgroup label="Dirt Oval">
+				<option value="legend">INEX Legend</option>
+				<option value="dirt late model">Late Model (Not implemented)</option>
+				<option value="dirt street stock">Street Stock (Not implemented)</option>
+				<option value="dirt winged sprint">Winged Sprint Car (Not implemented)</option>
+				<option value="dirt non-winged sprint">Non-Winged Sprint Car (Not implemented)</option>
+				<option value="dirt midget">Midget (Not implemented)</option>
+			</optgroup>
+			<optgroup label="Road Course">
+				<option value="legend">INEX Legend</option>
+				<option value="miata">Spec Miata (Not implemented)</option>
+				<option value="consumerTA">Consumer Track Attack (Not implemented)</option>
+				<option value="vee">Formula Vee (Not implemented)</option>
+			</optgroup>-->
+		</select>
+		<p class='center'>Choose whether to hide certain parts of the setup sheet to simplify your workflow:</p>
+		<label for="objectList">Object:</label>
+		<select id="objectList" onclick="getObjects('objectList')" onchange="checkDisplay('objectList','objectHideCheckbox')"></select>
+		<label for="objectHideCheckbox">Hidden:</label>
+		<input type="checkbox" id="objectHideCheckbox" onclick="hideObject('objectList', 'objectHideCheckbox')"></input>
+		<p class='center'>Save a team name and logo to display on setup sheets. This can make your printed outputs look more complete.</p>
+		<label for='teamNameCheck'>Show Team Info:</label>
+		<input type="checkbox" id="teamNameCheck"></input><br><br>
+		<label for="teamNameField">Team Name:</label>
+		<input type="text" class="otherInput" id="teamNameField"></input>
+		<p class='center'>Team logos should use a valid image URL.</p>
+		<label for="teamLogoField">Team Logo:</label>
+		<input type="text" class="otherInput" id="teamLogoField"> <!--accept=".png, .jpg, .jpeg"--></input> <!-- Temporarily accept image URLs -->
+		<p class='center'>Load a default file on launch</p>
+		<label for="defaultFileField">New Default File: </label>
+		<input type="file" class="otherInput" id="defaultFileField" accept=".stp" onchange="load('defaultFileField')"></input>
+		<label for="loadOnLaunchCheckbox">Load on Launch?</label>
+		<input type="checkbox" id="loadOnLaunchCheckbox"></input><br>
+		<p class='center' style='text-align: center'><b>Current default file: </b><span id="defaultFileExisting">None</span></p>
+		<br><br>
+		<button type="submit">Save Preferences</button>
+		<button type="button" onclick="display(['landing'],'inline-block','menu','preferences')">Back</button>
+	</form>
+</div>
+<div style="margin-left: 30%;width: 40%;margin-top:100px;margin-bottom: 100px;">
+<div id="cookieBox" class="infoBlock" style="padding:25px;">
+<h2>Cookies!</h2>
+<p style='font-size: 18px;'>This page uses cookies to save user preferences which ensures you have a consistent and user-friendly experience.
+This version of Setup Manager is open-source, which means you can see how your browsing data is being handled in the <a href='https://github.com/TPOliver07/SetupManager'>GitHub repository.</a>
+If cookies are not enabled for this page, many features will not work correctly. Would you like to enable cookies?</p><br>
+<button type='button' onclick='cookies(true)'>Yes</button><button type='button' onclick='cookies(false)' style='margin-left: 15%;'>No</button>
+</div></div>
+<div id="bugForm" style='display:none;'></div>
+<!--<iframe id="bugForm" src="https://docs.google.com/forms/d/e/1FAIpQLSd-Tzq8tGgyEe3g6QYzUeA_1UePy7pnaqmdpa1uhEcINjDZhQ/viewform?embedded=true" width="640" height="800" frameborder="10" marginheight="0" marginwidth="0">Loading…</iframe> This iframe will be added using javascript.-->
+</body>
+<footer>
+	<span style='display:inline'><p class='center'>Something not behaving as expected? Write a bug report by clicking the button.</p>
+	<button type='button' class='button-small' onclick="display(['bugForm'], 'block','google form', 'none')">File Bug Report</button></span>
+</footer>
+</html>

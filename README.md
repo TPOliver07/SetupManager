@@ -1,41 +1,29 @@
 # SetupManager
 
 This is a web-based tool to create, edit, and manage racing setups. 
-This tool is currently designed for oval racing cars with a focus on common measurements taken for INEX Legends for the time being.
+This tool is currently designed for oval racing cars with a focus on common measurements taken for US Legends for the time being.
 
-## Roadmap
-List of planned changes and version targets.
-### Version 1.0.2
-- Squash bugs
-	- Add a bug report/suggestion feature.
-	- Expand audience to other Legend Car racers to increase user base -> more bug reports.
-- Add a landing page to streamline user choice of loading a file or creating a new file.
-- Finalize table formatting to maximize legibility.
+## Versions
 
 ### Version 1.1.0
-- Prettier printing and display
-	- Browser print output cleanup
-  	- Dedicated "Print" button that produces a desired output.
-	- Add custom logos (see preferences)
+- Prepared to squash bugs
+	- Added a bug report/suggestion feature.
+	- Expand audience to other Legend Car racers to increase user base -> more bug reports.
+- Add a landing page to streamline user choice of loading a file or creating a new file.
+- Finalize table formatting to maximize legibility and design.
+	- Design targets being tablet friendly.
 - Add preferences that allow the user to configure:
 	- Custom logos
 	- Custom team name
 	- Launch file to load
-- Add cookie functionality to save user preferences.
-- Add site navigation
-  	- Add a "How To" page
-
-### Version 1.2.0
-- Add cars in preferences
-	- Use for more than just an INEX Legend
-	- Late Model, Street Stock, Modified...
-	- Custom: user selects measurements to include in preferences
-
-### Version 1.3.0
-- Add user login system
-- Transition to closed-source and host site
-
-## Versions
+	- Car (will not be implementing others yet)
+	- Hide objects
+		- Object hiding system uses names to hide table cells. 
+- Added cookie functionality to save user preferences.
+	- This cookie functionality does not work on Google Chrome currently.
+- Rewrote saving functionality to ensure consistency across save files and much better backwards compatibility.
+- Created a more modular table design that makes changing or hiding cells easier.
+	- This will allow for easier addition of future cars, or even custom user configuration files.
 
 ### Version 1.0.1
 - Added Rear Axle Offset measurement

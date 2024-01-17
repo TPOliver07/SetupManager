@@ -42,52 +42,52 @@ function download(url,fileName) {
   document.body.removeChild(a)
 }
 
-function save() {
-	// Need to get the value of every input.
-	var savedValues = [];
-	// var readable = []; // Readable version of the saveArray.
-	var i = 0
-	while (i < elementIDs.length) {
-		savedValues.push('"'+ document.getElementById(elementIDs[i]).value + '"');
-		// readable.push(elementIDs[i] + ": " + document.getElementById(elementIDs[i]).value);
-		i += 1;
+function save(downloadFile) { // New save function will use a NodeList to get and save all inputs.
+	// download determines whether the saved data is for internal use or if a downloaded file will be generated.
+	elementList = document.querySelectorAll("input[data-position='setup']");
+	// console.log(elementList);
+	let savedValues = [];
+	for (let i = 0; i < elementList.length; i++) {
+		savedValues.push('"' + elementList[i].id + ":" + document.getElementById(elementList[i].id).value + '"');
 	}
-	console.log(savedValues.toString());
-	// console.log(readable.toString());
-	
-	if (document.getElementById("altNameCheck").checked == true){
-		download(makeTextFile(savedValues.toString()), document.getElementById("altName").value);
+	//console.log(savedValues.toString());
+	if (downloadFile == true) {
+		if (document.getElementById("altNameCheck").checked == true){
+			download(makeTextFile(savedValues.toString()), document.getElementById("altName").value);
+		}
+		else {
+			console.log(savedValues[0]);
+			download(makeTextFile(savedValues.toString()), savedValues[0].substr(0,savedValues[0].length-1).split(":")[1] + "_" + savedValues[1].substr(0,savedValues[1].length-1).split(":")[1] + "_" + savedValues[2].substr(0,savedValues[2].length-1).split(":")[1]+ ".stp");
+		}
 	}
 	else {
-		download(makeTextFile(savedValues.toString()), savedValues[0].substr(0,savedValues[0].length-1) + "_" + savedValues[1].substr(0,savedValues[1].length-1) + ".stp");
+		return savedValues.toString();
 	}
 }
+
 var loadedValues = [];
-function load() {
-	var file = document.getElementById("loadPathInput").files[0];
-	
+function load(object) {
+	var file = document.getElementById(object).files[0];
 	if (file) {
 		var reader = new FileReader();
 		reader.readAsText(file, "UTF-8");
 		reader.onload = function (evt) {
 			loadedValues = evt.target.result.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-			//console.log(evt.target.result.split(","));
-			console.log(loadedValues);
+			// console.log(loadedValues);
+			// Need to create a way to validate files before attempting to write.
 			
-			// Update data
-			var i = 0
-			while (i < elementIDs.length) {
-				document.getElementById(elementIDs[i]).value = loadedValues[i].substr(1,(loadedValues[i].length)-2);
-				i += 1;
+			// Assign values
+			for (let i = 0; i < loadedValues.length; i++){
+				//console.log('Set ' + loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0] + ' to ' + loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[1] + '.');
+				document.getElementById(loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[0]).value = loadedValues[i].substr(1,loadedValues[i].length - 2).split(":")[1];
 			}
+			
 		}
 		reader.onerror = function (evt) {
 			alert("error reading file");
 		}
 	}
-	
-	scaleFill();
-	
+	return file;
 }
 
 function newFile() {
@@ -114,10 +114,46 @@ function display(elementID, displayType, instruction, callID) { // target elemen
 				}
 			}
 		}
+		else if (instruction == "menu") {
+			document.getElementById(callID).style.display = "none";
+			document.getElementById(elementID).style.display = displayType;
+		}
+		else if (instruction == "closeAll") {
+			
+		}
+		else if (instruction == "google form") {
+			let divList = document.getElementsByTagName('div'); // Hide all displays.
+			for (j = 0; j < divList.length; j++) {
+				divList[j].style.display = "none";
+			}
+			document.getElementById(elementID[i]).style.display = displayType;
+			document.getElementById(elementID[i]).innerHTML = '<iframe id="bugForm" src="https://docs.google.com/forms/d/e/1FAIpQLSd-Tzq8tGgyEe3g6QYzUeA_1UePy7pnaqmdpa1uhEcINjDZhQ/viewform?embedded=true" width="640" height="800" frameborder="10" marginheight="0" marginwidth="0">Loading…</iframe>'
+		}
 		else {
 			document.getElementById(elementID[i]).style.display = displayType;
 		}
+		
 		i += 1;
+	}
+}
+
+function changeTab(targetBlock, targetTab) { // change to target tab, close other tabs.
+	let blocks = Array.prototype.slice.call(document.getElementsByName('tab'));
+	let tabs = Array.prototype.slice.call(document.getElementsByName('tabButton'));
+	for (let i = 0; i < blocks.length; i++) {
+		document.getElementById(blocks[i].id).style.display = "none";
+	}
+	for (let j = 0; j < tabs.length; j++){
+		if (document.getElementById(tabs[j].id).classList.contains('tabActive')) {
+			document.getElementById(tabs[j].id).classList.remove('tabActive');
+			document.getElementById(tabs[j].id).classList.add('tabInactive');
+		}
+	}
+	document.getElementById(targetBlock).style.display = "inline-block";
+	
+	if (document.getElementById(targetTab).classList.contains('tabInactive')) {
+		document.getElementById(targetTab).classList.remove('tabInactive');
+		document.getElementById(targetTab).classList.add('tabActive');
 	}
 }
 

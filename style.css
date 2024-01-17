@@ -1,3 +1,5 @@
+{box-sizing: border-box;}
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -17,37 +19,78 @@ table {
 }
 
 td, th {
-  border: 2px solid #000000;
   text-align: center;
   font-weight: bold;
-  padding: 15px;
-  width: 60px;
+  font-size: 18px;
+  border:0px solid #000000;
+}
+
+.tdContainer {
+	padding: 0px;
+	height: 75px;
+	width: 100%;
 }
 
 .tdInput {
 	background-color:#ffffff;
 	font-weight: normal;
-	width: 100px;
 }
 
 .tdLabel {
-	font-weight: normal;
-	width: 45px;
+	font-weight: bold;
+	width: 35%;
+	border-right: 1px solid #000000;
+}
+
+.tdTitle {
+	font-weight: bold;
+	width: 35%;
+	border-right: 1px solid #000000;
 }
 
 .tdStatic {
 	background-color:#dddddd;
+	font-weight: normal;
+}
+
+.tdInput-fourwheels {
+	background-color:#ffffff;
+	font-weight: normal;
+	width: auto;
+	border-right: 2px solid #000000;
+}
+.tdInput-fourwheels:last-of-type {
+	border-right: 0px;
+}
+
+.tdLabel-fourwheels {
+	font-weight: bold;
+	background-color: #f3f3f3;
+	border-right: 1px solid #000000;
+	width: fit-content;
+}
+
+.tdTitle-fourwheels {
+	font-weight: bold;
+	border-bottom: 2px solid #000000;
+	background-color: #d3d3d3;
+	width: 100%;
+}
+
+.tdStatic-fourwheels {
+	background-color:#dddddd;
+	font-weight: normal;
 }
 
 h1, h2, h3 {
 	font-family: arial;
 	text-align: center;
-	}
+}
 
 p {
 	font-family:arial;
 	text-align: left;
-	font-size: 14px;
+	font-size: 18px;
 	color: black;
 	text-align: left;
 }
@@ -55,16 +98,23 @@ p {
 label {
 	font-family:arial;
 	text-align: left;
-	font-size: 18px;
+	font-size: 20px;
+	font-weight: bold;
 	color: black;
 	text-align: left;
 	font-style: bold;
 }
 
 input {
-	font-size: 14px;
+	font-size: 16px;
 	text-align: center;
 	width: 40px;
+}
+
+
+
+label:nth-of-type(2) {
+	margin-left: 10%;
 }
 
 .otherInput {
@@ -83,12 +133,13 @@ textarea {
 button {
 	background-color: #e7e7e7;
 	border: 2px solid #000000;
+	border-radius: 10px;
 	color: black;
 	padding: 8px 16px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 24px;
+	font-size: 18px;
 	transition-duration: 0.2s;
 	margin-bottom: 1em;
 	}
@@ -98,17 +149,81 @@ button:hover {
 	background-color: #ffffff;
 	border: 2px solid #000000;
 	}
+
+.button-small {
+	font-size: 12px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.tab {
+	margin: -4px;
+  width: 25%;	
+  margin-bottom: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.tabInactive {
+	background-color: #c3c3c3;
+}
+
+.tabActive {
+	background-color: #ffffff;
+}
 	
 body {
-	margin-left: 10%;
-	margin-right: 10%;
+	display: flex;
+	flex-direction: column;
+	width: 100hl;
+	min-height: 100vh;
 	background-color: white;
-	}
-.mainMenu {
+	box-sizing: content-box;
+	margin: auto;
+}
+
+.center {
+	text-align: : center;
+}
+
+.center-both {
 	text-align: center;
-	margin-left: 20%;
-	margin-right: 20%;
-	display: block;
+	padding: 10px 0;
+}
+
+.roundContainer {
+	border: 2px solid #000000;
+	border-radius: 5px;
+	width: 95%;
+	height: 95%;
+	margin: calc(2.5% - 2px);
+}
+	
+.containerTable {
+	width: 90%;
+	table-layout: fixed;
+	empty-cells: hide;
+	border-collapse: collapse;
+}
+
+.nestedTable {
+	table-layout: auto;
+	width: 100%;
+	height: 100%;
+}
+
+.mainMenu {
+	box-sizing: border-box;
+	display:block;
+	height: auto;
+	width: 80%;
+	margin-left: 10%;
+	text-align: center;
+	border: 5px solid #000000;
+	border-radius: 10px;
+	background-color: #e3e3e3;
+	padding: 25px;
+	
 }
 	
 .darkBody {
@@ -118,15 +233,73 @@ body {
 	}
 
 .workArea {
-	display: block;
+	display: none;
+	margin-left: 10%;
+	margin-right: 10%;
+	width:80%;
+	height: auto;
+	padding-top: 15px;
 }
 
-.pref {
-	height: 60px;
-	width:  50%;
-	size: 500;
+.preferences {
 	font-family: arial;
 	font-size: 14px;
+	text-align: center;
+	display:none;
+	align-items: center;
+	width: 80%;
+	margin-left:10%;
+	margin-right: 10%;
+}
+
+.teamInfo {
+	display:block;
+	box-sizing: border-box;
+	padding: 10px;
+	height: 100px;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	text-align: right;
+	border: 5px solid #000000;
+	border-radius: 10px;
+	background-color: #e3e3e3;
+}
+
+.infoBlock {
+	display:block;
+	box-sizing: border-box;
+	height: auto;
+	width: 100%;
+	text-align: center;
+	border: 5px solid #000000;
+	border-radius: 10px;
+	background-color: #e3e3e3;
+}
+
+.workBlock {
+	display:block;
+	box-sizing: border-box;
+	margin-top: 0px;
+	height: auto;
+	width: 100%;
+	text-align: center;
+	border: 5px solid #000000;
+	border-radius: 10px;
+	background-color: #f3f3f3;
+}
+
+.tabHeader {
+	width: 100%;
+	padding-top: 20px;
+	display: inline-block;
+	text-align: center;
+	margin-left: 5px;
+}
+
+.teamLogo {
+	height: 100px;
+	margin-left: 15%;
 }
 
 span {
@@ -139,4 +312,23 @@ span:first-of-type {
 
 span:last-of-type {
     margin-right: 0;
+}
+
+iframe{
+	margin-left: 25%;
+	width: 50%;
+	margin-right: 25%;
+	background-color: #e3e3e3;
+}
+
+footer {
+	display: inline;
+	text-align: center;
+	width: 100%;
+	background-color: #e3e3e3;
+	padding: 15x 20px;
+	box-sizing: border-box;
+	margin-top: auto;
+	border-top: 2.5px solid #000000;
+	
 }
